@@ -2,27 +2,78 @@ import React, { useRef } from "react";
 import Header from "./Header";
 import { useState } from "react";
 import { checkValidData } from "../Utils/validate";
+import { auth } from "../Utils/Firebase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import Browse from "./Browse";
 
 const SignIn = () => {
   const [isSignedIn, setIsSignedIn] = useState(true);
-  const[errorMessage , setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const name = useRef(null);
   const email = useRef(null);
-  const password =useRef(null);
+  const password = useRef(null);
 
-  const handleBtnClick = ()=>{
-        const validationMsg = checkValidData( email.current.value, password.current.value , name.current.value);
-        console.log("Email------->", email.current.value)
-        console.log("Password----->", password.current.value)
-        console.log(validationMsg)
-        setErrorMessage(validationMsg)
+  const handleBtnClick = () => {
+    const validationMsg = checkValidData(
+      email.current.value,
+      password.current.value,
+      // name.current.value
+    );
+    // console.log("Name------->", name.current.value);
+    // console.log("Email------->", email.current.value);
+    // console.log("Password----->", password.current.value);
+    // console.log(validationMsg);
+    setErrorMessage(validationMsg);
 
-  }
+    //logic : if there is any validation message (Invalid inputs) then it will stick to it it will return nothing.
+    if (validationMsg) return;
+
+    //logic: if no validation msg means all inputs were valid, we will write signIn/SignUp logic then.
+    if (!isSignedIn) {
+      //firebase api to create a user
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+        // name.current.value
+      )
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + " " + errorMessage);
+          // ..
+        });
+    } else 
+    {
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode + " " + errorMessage);
+        });
+    }
+  };
 
   const handleSignInToggle = () => {
     setIsSignedIn(!isSignedIn);
-    
   };
   return (
     <>
@@ -33,7 +84,10 @@ const SignIn = () => {
           alt="background-Image"
         />
       </div>
-      <form onSubmit={e=>e.preventDefault()} className="absolute w-3/12 bg-black my-36 mx-auto left-0 right-0 text-white p-12 rounded-lg bg-opacity-80">
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="absolute w-3/12 bg-black my-36 mx-auto left-0 right-0 text-white p-12 rounded-lg bg-opacity-80"
+      >
         <h1 className="font-bold text-3xl py-4 my-2">
           {isSignedIn ? "Sign In" : "Sign Up"}
         </h1>
@@ -58,9 +112,12 @@ const SignIn = () => {
           placeholder="Password"
         />
 
-          <p className="text-red-800 font-semibold">{errorMessage}</p>
+        <p className="text-red-800 font-semibold">{errorMessage}</p>
 
-        <button onClick={handleBtnClick} className="p-4 my-6 bg-red-700 w-full rounded-lg">
+        <button
+          onClick={handleBtnClick}
+          className="p-4 my-6 bg-red-700 w-full rounded-lg"
+        >
           {isSignedIn ? "Sign In" : "Sign Up"}
         </button>
         <p className="py-6">
