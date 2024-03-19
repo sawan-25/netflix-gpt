@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import { addUser } from "../Utils/userSlice";
 import { useDispatch } from "react-redux";
+import {USER_AVATAR} from "../Utils/Constants"
 
 const SignIn = () => {
 
@@ -50,7 +51,7 @@ const SignIn = () => {
           const user = userCredential.user;
           console.log(user);
           updateProfile(user,{
-            displayName: name.current.value , photoURL: "https://avatars.githubusercontent.com/u/85439074?u=15b2107fa4cb5ae3db8237aa0f914ce830fa1ac8&v=4"
+            displayName: name.current.value , photoURL: USER_AVATAR
           }).then(() => {
 
             /* dispatching addUser action because now also we need to update the user who's
