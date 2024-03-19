@@ -1,21 +1,46 @@
 import { signOut } from "firebase/auth";
-import React from "react";
+import React, { useEffect } from "react";
 import { auth } from "../Utils/Firebase";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, removeUser } from '../Utils/userSlice';
+import { onAuthStateChanged } from "firebase/auth";
 
 
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector(store => store.user);
   
   const handleSignOut =()=>{
     signOut(auth).then(() => {
-      navigate("/");
+     
       
     }).catch((error) => {
       console.log(error);
     });
   }
+
+    /*Logic to get currently signed In user and auth.
+       So basically every time when user signin or signout this API will be called.
+       and navigates to Sign In page or browse page*/
+  
+    useEffect(()=>{
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+        const {uid, email , password , displayName, photoURL } = user;
+        dispatch(addUser({uid:uid, email:email,password:password, displayName:displayName, photoURL:photoURL  }))
+        navigate("/browse")
+        } else {
+        dispatch(removeUser());
+        navigate("/")
+     
+        }
+      });
+    },[])
+
+
 
   return (
     <>
@@ -25,14 +50,14 @@ const Header = () => {
           src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
           alt="netflix-logo"
         />
-        <div className="flex p-2">
+       { user && <div className="flex p-2">
           <img
-            className="h-12 w-12 p-1"
+            className="h-14 w-14 p-1"
             alt="userProfile"
-            src="https://occ-0-3752-3646.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABcLtVOXjghzlDrVwmPHGQtkXjoJPmpISBttze62ZpxaaFWq-LZVH5yZxMD15UVLU6nd4GIUtTSHOMsbUOdPCIYRL2-2bGNU.png?r=b38"
+            src={user.photoURL}
           />
-          <button className="font-bold text-white" onClick={handleSignOut}>Sign Out</button>
-        </div>
+          <button className="font-bold text-white hover:text-red-800" onClick={handleSignOut}>Sign Out</button>
+        </div>}
       </div>
     </>
   );

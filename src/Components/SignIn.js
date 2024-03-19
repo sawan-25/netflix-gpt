@@ -6,11 +6,14 @@ import { auth } from "../Utils/Firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { addUser } from "../Utils/userSlice";
+import { useDispatch } from "react-redux";
 
 const SignIn = () => {
-  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
   const [isSignedIn, setIsSignedIn] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -35,17 +38,32 @@ const SignIn = () => {
 
     //logic: if no validation msg means all inputs were valid, we will write signIn/SignUp logic then.
     if (!isSignedIn) {
-      //firebase api to create a user
-      createUserWithEmailAndPassword(
+      //Sign Up page Logic
+      
+      createUserWithEmailAndPassword(               //firebase api to create a user
         auth,
         email.current.value,
-        password.current.value
-        // name.current.value
+        password.current.value,
+        name.current.value
       )
         .then((userCredential) => {
           const user = userCredential.user;
           console.log(user);
-          navigate("/")
+          updateProfile(user,{
+            displayName: name.current.value , photoURL: "https://avatars.githubusercontent.com/u/85439074?u=15b2107fa4cb5ae3db8237aa0f914ce830fa1ac8&v=4"
+          }).then(() => {
+
+            /* dispatching addUser action because now also we need to update the user who's
+             profile has been created with dispaly name and photoURL.*/
+            
+             const {uid, email , password , displayName, photoURL } = user;
+            dispatch(addUser({uid:uid, email:email,password:password, displayName:displayName, photoURL:photoURL  }))
+             
+            
+          }).catch((error) => {
+            setErrorMessage(error.message)
+            
+          });
      
         })
         .catch((error) => {
@@ -56,17 +74,14 @@ const SignIn = () => {
         });
     } else 
     {
+      //Sign In page Logic
       signInWithEmailAndPassword(
         auth,
         email.current.value,
         password.current.value
       )
         .then((userCredential) => {
-
-          // Signed in
           const user = userCredential.user;
-          console.log(user);
-          navigate("/browse")
         })
         .catch((error) => {
           const errorCode = error.code;
