@@ -14,15 +14,15 @@ const useMovieTrailer = (movieId)=>{
       API_MOVIES_OPTIONS
     );
     const json = await data.json();
-    console.log(json.results);
+    // console.log(json.results);
 
     const trailers = json.results.filter((video) => video.type === "Trailer");
-    console.log("TRAILERS=====>", trailers);
+    // console.log("TRAILERS=====>", trailers);
 
     // if (!trailers) return; //Early Return.
 
     const mainTrailer = trailers.length ? trailers[0] : json.results[0];
-    console.log("MAIN TRTAILER===>", mainTrailer);
+    // console.log("MAIN TRTAILER===>", mainTrailer);
     dispatch(addMainTrailerVideo(mainTrailer));
   };
 

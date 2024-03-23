@@ -11,6 +11,7 @@ const Browse = () => {
 
   return (
     <>
+      <div className="bg-black">
       <Header/>
       {
         /*  
@@ -27,6 +28,7 @@ const Browse = () => {
       
       <MainContainer/>
       <SecondaryContainer/>
+      </div>
     </>
   )
 }
