@@ -11,7 +11,7 @@ const MovieList = ({ title, movies }) => {
     <>
       <div className="p-4">
         <h1 className="font-bold text-2xl py-2 text-white">{title}</h1>
-        <div className="flex overflow-x-scroll ">
+        <div className="flex overflow-x-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           <div className="flex gap-4 ">
             {movies?.map((movie) => {
               return (
