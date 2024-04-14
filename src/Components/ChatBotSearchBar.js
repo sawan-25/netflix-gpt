@@ -20,7 +20,7 @@ const ChatBotBar = () => {
   };
 
   const handleSearchText = async () => {
-    console.log(searchText.current.value);
+    // console.log(searchText.current.value);
 
     const aiQuery =
       "Act as a movie recommendation system and suggest movies for the query" +
@@ -32,7 +32,7 @@ const ChatBotBar = () => {
       model: "gpt-3.5-turbo",
     });
 
-    console.log(aiResults.choices[0]?.message?.content);
+    // console.log(aiResults.choices[0]?.message?.content);
     
     const aiResultsMovies = aiResults.choices[0]?.message?.content.split(",");
 
@@ -40,7 +40,7 @@ const ChatBotBar = () => {
 
     const tmdbMovieResults = Promise.all(promiseArray);
 
-    console.log(tmdbMovieResults);
+    // console.log(tmdbMovieResults);
   };
 
   return (

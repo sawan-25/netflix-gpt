@@ -2,7 +2,7 @@ import React from "react";
 import MovieCard from "./MovieCard";
 
 const MovieList = ({ title, movies }) => {
-  console.log("Movies---->", movies);
+  // console.log("Movies---->", movies);
 
   if (!movies) {
     return <div>Loading..... Come Back Later.</div>;

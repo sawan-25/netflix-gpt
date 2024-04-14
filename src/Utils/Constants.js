@@ -5,7 +5,7 @@ export const API_MOVIES_OPTIONS = {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4OWM4ZGVkYzk0M2EzYjFlMzRkOTZmZDY5YWRjZGRlOCIsInN1YiI6IjYyMmY4Y2FmNjVjMjZjMDAyMDUyMjI1NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.-oM24N1CmHYwlbVcPT8VCUmgUdYqlL0Nqk5qk_xffnY'
+      Authorization: 'Bearer ' +  process.env.REACT_APP_TMDB_KEY,
     }
   };
 
@@ -18,4 +18,4 @@ export const SUPPORTED_LANG = [
   {identifier : "spain" , name : "Spanish"}
 ]
 
-export const OPENAI_API_KEY = "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"
+export const OPENAI_API_KEY = process.env.REACT_APP_OPENAI_API_KEY

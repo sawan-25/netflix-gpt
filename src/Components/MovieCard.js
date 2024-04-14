@@ -3,7 +3,7 @@ import {IMG_CDN_URL} from "../Utils/Constants"
 
 const MovieCard = ( { posterPath, title }) => {
 
-    console.log(posterPath ,title)
+    // console.log(posterPath ,title)
 
   return (
     <>  
