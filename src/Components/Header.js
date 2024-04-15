@@ -61,17 +61,17 @@ const Header = () => {
 
   return (
     <>
-      <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex justify-between">
-        <img className="w-44" src={logo} alt="netflix-logo" />
-
+      <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex flex-col md:flex-row md: justify-between">
+        <img className="w-44 mx-auto md:mx-0" src={logo} alt="netflix-logo" />
+      <div className="flex flex-row  gap-5 md:gap-2">
         <button
-          className="bg-red-600 px-4 h-10 rounded-md text-lg font-medium hover:bg-red-700"
+          className="bg-red-600 px-4 h-10 rounded-md text-lg font-medium hover:bg-red-700 w-1/2 md:w-32 mx-auto md:mx-0 "
           onClick={handleToggleChatBot}
         >
           { showChatBot ? "Home Page" : "Chat Bot AI" }
         </button>
         {user && (
-          <div className="flex p-2">
+          <div className="md:flex p-2  ">
             { showChatBot && <select className="p-2 m-2 bg-gray-900 text-white rounded-sm" onChange={handleLanguage}>
               {SUPPORTED_LANG.map((lang) => (
                 <option key={lang.identifier} value={lang.identifier}>
@@ -79,20 +79,28 @@ const Header = () => {
                 </option>
               ))}
             </select>}
+            <div className="flex flex-row">
+
             <img
-              className="h-14 w-14 p-1"
+              className="h-14 w-14 p-1 -mt-2"
               alt="userProfile"
               src={user.photoURL}
-            />
+              />
 
             <button
-              className="font-bold text-white hover:text-red-800"
+              className="font-bold text-white hover:text-red-800 -mt-2 md:-mt-5"
               onClick={handleSignOut}
-            >
+              >
               Sign Out
             </button>
+            
+              </div>
           </div>
+
+
         )}
+
+          </div>
       </div>
     </>
   );

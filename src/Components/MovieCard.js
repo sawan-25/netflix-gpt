@@ -7,7 +7,7 @@ const MovieCard = ( { posterPath, title }) => {
 
   return (
     <>  
-        <div className='w-48 pr-4'>
+        <div className=' w-24 md:w-48 pr-4'>
             <img className=' rounded-md' alt = "MoviePoster" src  = {IMG_CDN_URL + posterPath} />
             <h1 className='text-white'>{title}</h1>
         </div>

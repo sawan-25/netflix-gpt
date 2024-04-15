@@ -45,9 +45,9 @@ const ChatBotBar = () => {
 
   return (
     <>
-      <div className="flex justify-center pt-[20%]">
+      <div className="flex justify-center pt-[55%] md:pt-[15%]">
         <form
-          className=" w-1/2 grid grid-cols-12 bg-black rounded-md"
+          className=" w-full md:w-1/2 grid grid-cols-12 bg-black rounded-md"
           onSubmit={(e) => e.preventDefault()}
         >
           <input
